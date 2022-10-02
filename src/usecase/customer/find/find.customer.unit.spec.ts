@@ -1,8 +1,5 @@
-import { Sequelize } from "sequelize-typescript";
 import Customer from "../../../domain/customer/entity/customer";
 import Address from "../../../domain/customer/value-object/address";
-import CustomerModel from "../../../infrastructure/customer/repository/sequelize/customer-model";
-import CustomerRepository from "../../../infrastructure/customer/repository/sequelize/customer-repository";
 import FindCustomerUseCase from "./find.customer.usecase";
 
 describe("Unit Test find customer use case", () => {
@@ -43,5 +40,25 @@ describe("Unit Test find customer use case", () => {
 
         expect(result).toEqual(output);
     });
+
+    it("not found a costumer", async () => {
+
+        const customerRepository = MockRepository();
+        customerRepository.find.mockImplementation(() => {
+            throw new Error("Customer not found");
+        });
+
+        const usecase = new FindCustomerUseCase(customerRepository);
+
+        const input = {
+            id: "456",
+        };
+
+        expect(() => {
+            return usecase.execute(input);
+        }).rejects.toThrow("Customer not found");
+
+    });
+
 
 });
