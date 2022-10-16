@@ -1,6 +1,6 @@
 import CustomerCreateUseCase from "./create.customer.usecase";
 
-describe("Unit Test find customer use case", () => {
+describe("Unit Test create customer use case", () => {
 
     const MockRepository = () => {
         return {
